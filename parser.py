@@ -64,9 +64,8 @@ class Parser:
 
     def lexer(self):
         i = 0
-        code_without_newline = re.split("\n+", self.file)
-        code = list(filter(lambda e : e != '', code_without_newline))
-
+        code = self.file.split()
+        
         for element in code:
             a_command = re.match(self.a_command_pattern, element)
             if a_command:
@@ -84,7 +83,7 @@ class Parser:
                 i += 1
                 continue
             
-            c_command = re.match('(\w=)?([^;]*)(;\w*)?', element)
+            c_command = re.match(self.c_command_pattern, element)
             if c_command:
                 i += 1
                 self.tokens.append(c_command.group())

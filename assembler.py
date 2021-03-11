@@ -13,6 +13,8 @@ class Code:
                 self.a_command(element[1])
             elif element[0] == "C_COMMAND":
                 self.c_command(element[1])
+            else:
+                print("L-command not implementation")
 
     def c_command(self, commands):
         dest_command = commands[0]
@@ -21,6 +23,11 @@ class Code:
         dest_ = self.dest(dest_command)
         comp_ = self.comp(comp_command)
         #jump_ = self.jump(jump_command)
+        jump_ = '999'
+
+        with open('filename.hack', 'a') as f:
+            f.write('111')
+            f.write(comp_+dest_+jump_+'\n')
 
     def dest(self, dest_command):
         if dest_command == None:
@@ -60,7 +67,45 @@ class Code:
         elif comp_command == '!M':
             return '1110001'
         elif comp_command == '-D':
-            return 'ki'
+            return '0001111'
+        elif comp_command == '-A':
+            return '0110011'
+        elif comp_command == '-M':
+            return '1110011'
+        elif comp_command == 'D+1':
+            return '0111111'
+        elif comp_command == 'A+1':
+            return '0110111'
+        elif comp_command == 'M+1':
+            return '1110111'
+        elif comp_command == 'D-1':
+            return '0001110'
+        elif comp_command == 'A-1':
+            return '0110010'
+        elif comp_command == 'M-1':
+            return '1110111'
+        elif comp_command == 'D+A':
+            return '0000010'
+        elif comp_command == 'D+M':
+            return '1000010'
+        elif comp_command == 'D-A':
+            return '0010011'
+        elif comp_command == 'D-M':
+            return '1010011'
+        elif comp_command == 'A-D':
+            return '0000111'
+        elif comp_command == 'M-D':
+            return '1000111'
+        elif comp_command == 'D&A':
+            return '0000000'
+        elif comp_command == 'D&M':
+            return '1000000'
+        elif comp_command == 'D|A':
+            return '0010101'
+        elif comp_command == 'D|M':
+            return '1010101'
+        else:
+            print("comp error")
 
     def a_command(self, command):
         with open('filename.hack', 'a') as f:
