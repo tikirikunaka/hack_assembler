@@ -8,7 +8,7 @@ class Parser:
         self.output = []
 
         self.a_command_pattern = '@\w*'
-        self.c_command_pattern = '(\w=)?([^;]*)(;\w*)?'
+        self.c_command_pattern = '(\w*=)?([^;]*)(;\w*)?'
     
     def hasMoreCommands(self):
         if self.current < len(self.tokens):
@@ -65,7 +65,7 @@ class Parser:
     def lexer(self):
         i = 0
         code = self.file.split()
-        
+
         for element in code:
             a_command = re.match(self.a_command_pattern, element)
             if a_command:
