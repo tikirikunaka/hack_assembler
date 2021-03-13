@@ -2,7 +2,6 @@
 class Code:
     def __init__(self, tree):
         self.tree = tree
-        print(tree[:100])
         open('filename.hack', 'w')
     
     def code_generate(self):
