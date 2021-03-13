@@ -1,4 +1,5 @@
 import re
+from symboltable import SymbolTable
 
 class Parser:
     def __init__(self, file):
@@ -6,6 +7,7 @@ class Parser:
         self.tokens = []
         self.current = 0
         self.output = []
+        self.table = SymbolTable()
 
         self.a_command_pattern = '@\w*'
         self.c_command_pattern = '(\w*=)?([^;]*)(;\w*)?'
@@ -59,13 +61,23 @@ class Parser:
                 token = [dest_mnemonic, comp_mnemonic, jump_mnemonic]
             self.output.append((command_type, token))
             self.advance()
-        
-        return self.output
+        self.create_symboltable()
+
+        return self.output, self.table
+
+    def create_symboltable(self):
+        rom = 0
+        for element in self.output:
+            if element[0] == 'A_COMMAND' or element[0] == 'C_COMMAND':
+                rom += 1
+            else:
+                self.table.addEntry(element[1][1:-1], rom)
+
+
 
     def lexer(self):
         i = 0
         code = self.file.split()
-
         for element in code:
             a_command = re.match(self.a_command_pattern, element)
             if a_command:
