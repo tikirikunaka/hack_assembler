@@ -1,7 +1,11 @@
+import re
+
 
 class Code:
-    def __init__(self, tree):
+    def __init__(self, tree, table):
         self.tree = tree
+        self.table = table
+        self.rom = 16
         open('filename.hack', 'w')
     
     def code_generate(self):
@@ -10,8 +14,8 @@ class Code:
                 self.a_command(element[1])
             elif element[0] == "C_COMMAND":
                 self.c_command(element[1])
-            else:
-                print("L-command not implementation")
+            #else:
+            #    print("L-command is skipped")
 
     def c_command(self, commands):
         dest_command = commands[0]
@@ -23,7 +27,6 @@ class Code:
 
         with open('filename.hack', 'a') as f:
             f.write('111')
-            print(dest_, comp_, jump_)
             f.write(comp_+dest_+jump_+'\n')
 
     def jump(self, jump_command):
@@ -128,6 +131,15 @@ class Code:
             print("comp error : ", comp_command)
 
     def a_command(self, command):
+        match_result = re.match("\D+", command[1:])
+        if match_result:
+            if self.table.contains(command[1:]):
+                command = command.replace(command[1:], str(self.table.getAddress(command[1:])))
+            else:
+                self.table.addEntry(command[1:], self.rom)
+                command = command.replace(command[1:], str(self.table.getAddress(command[1:])))
+                self.rom += 1
+
         with open('filename.hack', 'a') as f:
             f.write('0')
             a = bin(int(command[1:]))[2:]

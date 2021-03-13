@@ -66,13 +66,12 @@ class Parser:
         return self.output, self.table
 
     def create_symboltable(self):
-        print(self.output)
         rom = 0
         for element in self.output:
             if element[0] == 'A_COMMAND' or element[0] == 'C_COMMAND':
                 rom += 1
             else:
-                self.table.addEntry(element[1], rom+1)
+                self.table.addEntry(element[1][1:-1], rom)
 
 
 
